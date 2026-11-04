@@ -1,0 +1,38 @@
+// C++ code//
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); // RS, E, D4-D7
+int tempPin = A0; // Temperature sensor
+int pressPin = A1; // Pressure sensor
+float temperature;
+float pressure;
+
+void setup() {
+    lcd.begin(16, 2);
+    Serial.begin(9600);
+}
+
+void loop() {
+    // Read sensors
+    int tempVal = analogRead(tempPin);
+    int pressVal = analogRead(pressPin);
+    // Convert to engineering units (example conversion)
+    temperature = (tempVal * 5.0 / 1023.0) * 100; // Celsius
+    pressure = (pressVal * 5.0 / 1023.0) * 10; // Arbitrary units
+    // Display on LCD
+    lcd.setCursor(0, 0);
+    lcd.print("Temp: ");
+    lcd.print(temperature);
+    lcd.print(" C");
+    lcd.setCursor(0, 1);
+    lcd.print("Press: ");
+    lcd.print(pressure);
+    lcd.print(" Pa");
+    // Print to Serial Monitor
+    Serial.print("Temp: ");
+    Serial.print(temperature);
+    Serial.print(" C, ");
+    Serial.print("Press: ");
+    Serial.print(pressure);
+    Serial.println(" Pa");
+    delay(1000); // Update every second
+}
